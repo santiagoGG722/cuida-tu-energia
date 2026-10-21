@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!-- DOCTYPE: este documento es HTML5 -->
+<html lang="es">
+<head>
+    <!-- head: informacion SOBRE la pagina (no se ve) -->
+    <meta charset="UTF-8">
+    <!-- charset UTF-8: permite tildes y enie -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- viewport: la pagina se adapta al ancho del celular -->
+    <title>Registrar un equipo</title>
+    <!-- 1) Bootstrap: la hoja de estilos YA HECHA, desde internet (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- 2) CSS PROPIO: va DESPUES de Bootstrap para poder cambiar sus estilos (la cascada) -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <!-- La MISMA barra de menu de las otras paginas; cambia cual enlace tiene "active" -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-success">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">⚡ Cuida tu energía</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menu">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                        <a class="nav-link" href="equipos_electricos.html">Equipos eléctricos</a>
+                        <!-- active: resalta "Registrar un equipo" porque es la pagina actual -->
+                        <a class="nav-link active" href="registro.html">Registrar un equipo</a>
+                        <a class="nav-link" href="calculadora_consumo.html">Calculadora de consumo</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container py-4">
+            <h1>Registrar un equipo</h1>
+            <p class="lead">Escriba los datos de un equipo de su casa. Se agregará a la calculadora.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- row: dos columnas en computador: el formulario (col-lg-7) y el resultado (col-lg-5) -->
+        <div class="row g-4 my-2">
+            <div class="col-lg-7">
+                <!-- form: el FORMULARIO; id="form-registro" lo usa JavaScript (js/registro.js)
+                     novalidate NO se pone: asi el navegador revisa required, min y max antes de enviar -->
+                <form id="form-registro" class="card card-body">
+
+                    <!-- fieldset: AGRUPA campos relacionados; legend = el titulo del grupo -->
+                    <fieldset class="mb-3">
+                        <legend class="h5">Datos del equipo</legend>
+
+                        <!-- mb-3 = margen abajo entre un campo y otro -->
+                        <div class="mb-3">
+                            <!-- label for="nombre" se conecta con el input id="nombre" -->
+                            <label class="form-label" for="nombre">Nombre del equipo:</label>
+                            <!-- type="text": texto; required: obligatorio; placeholder: texto de ayuda gris -->
+                            <input class="form-control" type="text" id="nombre" required placeholder="Ej.: Nevera">
+                        </div>
+
+                        <!-- row g-3 + col-6: dos campos lado a lado -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label" for="potencia">Potencia (W):</label>
+                                <!-- type="number" con min y max: no deja enviar valores fuera del rango -->
+                                <input class="form-control" type="number" id="potencia" min="1" max="10000" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label" for="horas">Horas de uso al día:</label>
+                                <!-- step="0.5": de media en media hora -->
+                                <input class="form-control" type="number" id="horas" min="0.5" max="24" step="0.5" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="tipo">Tipo de equipo:</label>
+                            <!-- select: lista DESPLEGABLE; cada option es una opcion; value = lo que lee JavaScript -->
+                            <!-- form-select: el estilo de Bootstrap para las listas desplegables -->
+                            <select class="form-select" id="tipo">
+                                <option value="calor">Produce calor (ducha, plancha, estufa)</option>
+                                <option value="frio">Produce frío (nevera, aire acondicionado)</option>
+                                <option value="electronico">Electrónico (televisor, computador)</option>
+                                <option value="motor">Tiene motor (lavadora, licuadora)</option>
+                            </select>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-3">
+                        <legend class="h5">Uso</legend>
+                        <p class="mb-1">¿Cuándo lo usa más?</p>
+                        <!-- form-check: el estilo de Bootstrap para radio y checkbox -->
+                        <div class="form-check">
+                            <!-- radio: se puede elegir SOLO UNA opcion del grupo (mismo name="momento");
+                                 checked = la opcion marcada al empezar -->
+                            <input class="form-check-input" type="radio" id="dia" name="momento" value="dia" checked>
+                            <label class="form-check-label" for="dia">De día</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" id="noche" name="momento" value="noche">
+                            <label class="form-check-label" for="noche">De noche (6 a 9 pm, la hora más cara)</label>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <!-- checkbox: una casilla que se marca o no (JavaScript lee .checked: true o false) -->
+                            <input class="form-check-input" type="checkbox" id="desconecta">
+                            <label class="form-check-label" for="desconecta">Lo desconecto cuando no lo uso</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="fecha">Fecha del registro:</label>
+                            <!-- type="date": el navegador muestra un calendario -->
+                            <input class="form-control" type="date" id="fecha">
+                        </div>
+
+                        <div>
+                            <label class="form-label" for="notas">Observaciones:</label>
+                            <!-- textarea: texto de VARIAS lineas; rows = cuantas lineas se ven -->
+                            <textarea class="form-control" id="notas" rows="2" placeholder="Ej.: la etiqueta está borrosa"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <div>
+                        <!-- type="submit": ENVIA el formulario (JavaScript lo atiende);
+                             type="reset": BORRA todos los campos -->
+                        <button class="btn btn-primary" type="submit">Registrar</button>
+                        <button class="btn btn-outline-secondary" type="reset">Borrar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-5">
+                <h2 class="h5">Resultado</h2>
+                <!-- div vacio: JavaScript escribe aqui el resultado del registro -->
+                <!-- aria-live="polite": un lector de pantalla lee el mensaje cuando aparece -->
+                <div id="resultado" aria-live="polite">
+                    <p class="text-muted">Llene el formulario y presione <strong>Registrar</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-light text-muted text-center py-3">
+        <p class="mb-0">Paradigmas de Programación · Universidad de San Buenaventura Medellín · 2026-2</p>
+    </footer>
+
+    <!-- JavaScript de Bootstrap: hace funcionar el boton ☰ del menu en el celular -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- NUESTRO JavaScript de esta pagina -->
+    <script src="js/registro.js"></script>
+</body>
+</html>

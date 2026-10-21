@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!-- DOCTYPE: este documento es HTML5 -->
+<html lang="es">
+<head>
+    <!-- head: informacion SOBRE la pagina (no se ve) -->
+    <meta charset="UTF-8">
+    <!-- charset UTF-8: permite tildes y enie -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- viewport: la pagina se adapta al ancho del celular -->
+    <title>Equipos eléctricos</title>
+    <!-- 1) Bootstrap: la hoja de estilos YA HECHA, desde internet (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- 2) CSS PROPIO: va DESPUES de Bootstrap para poder cambiar sus estilos (la cascada) -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <!-- navbar: la BARRA DE MENU de Bootstrap (la misma en las 4 paginas)
+             navbar-expand-md = en pantallas medianas o grandes el menu se ve completo;
+                                en el celular se recoge en un boton ☰
+             navbar-dark      = letras claras para un fondo oscuro
+             bg-success       = fondo verde (estilos.css lo cambia por el verde propio) -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-success">
+            <!-- container: centra el contenido y deja margenes a los lados -->
+            <div class="container">
+                <!-- navbar-brand: el nombre del sitio, a la izquierda -->
+                <a class="navbar-brand" href="index.html">⚡ Cuida tu energía</a>
+                <!-- navbar-toggler: el boton ☰ que solo se ve en el celular;
+                     data-bs-target="#menu" = abre y cierra el div con id="menu" -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-label="Abrir menú">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- collapse navbar-collapse: la parte del menu que se recoge en el celular -->
+                <div class="collapse navbar-collapse" id="menu">
+                    <div class="navbar-nav">
+                        <!-- nav-link: cada enlace; active = resalta la pagina actual -->
+                        <a class="nav-link" href="index.html">Inicio</a>
+                        <a class="nav-link active" href="equipos_electricos.html">Equipos eléctricos</a>
+                        <a class="nav-link" href="registro.html">Registrar un equipo</a>
+                        <a class="nav-link" href="calculadora_consumo.html">Calculadora de consumo</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- container = centrado; py-4 = espacio arriba y abajo -->
+        <div class="container py-4">
+            <h1>Equipos eléctricos</h1>
+            <!-- lead: parrafo un poco mas grande -->
+            <p class="lead">Consumo de una semana en la casa de ejemplo. Tarifa: 950 COP por kWh.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="mb-4">
+            <h2>¿Cómo se calcula?</h2>
+            <!-- formula: CLASE PROPIA de estilos.css (caja con borde de rayitas) -->
+            <p class="formula">
+                kWh en la semana = vatios × (horas de lunes a viernes × 5 + horas de sábado y domingo × 2) ÷ 1000
+            </p>
+        </section>
+
+        <section class="mb-4">
+            <h2>Consumo por equipo</h2>
+            <!-- table-responsive: en el celular la tabla se desliza de lado -->
+            <div class="table-responsive">
+                <!-- table = estilo base; table-striped = filas de colores alternos;
+                     table-bordered = bordes en todas las celdas; align-middle = centrado vertical -->
+                <table class="table table-striped table-bordered align-middle">
+                    <caption>Consumo semanal de los equipos (calculado con JavaScript)</caption>
+                    <!-- table-light: encabezados con fondo gris claro -->
+                    <thead class="table-light">
+                        <tr>
+                            <!-- rowspan="2": la celda ocupa 2 FILAS hacia abajo -->
+                            <th rowspan="2">Equipo</th>
+                            <th rowspan="2">Potencia (W)</th>
+                            <!-- colspan="2": la celda ocupa 2 COLUMNAS hacia la derecha -->
+                            <th colspan="2">Horas de uso por día</th>
+                            <th rowspan="2">kWh en la semana</th>
+                            <th rowspan="2">Costo en la semana (COP)</th>
+                        </tr>
+                        <tr>
+                            <!-- esta segunda fila solo tiene las 2 columnas que abrio el colspan -->
+                            <th>Lunes a viernes</th>
+                            <th>Sábado y domingo</th>
+                        </tr>
+                    </thead>
+                    <!-- tbody VACIO: JavaScript (js/equipos_electricos.js) escribe aqui las filas -->
+                    <tbody id="cuerpo-equipos"></tbody>
+                    <!-- tfoot: la fila de TOTALES; JavaScript llena las celdas con id -->
+                    <tfoot>
+                        <tr>
+                            <th colspan="4">Total de la semana</th>
+                            <th id="total-kwh">0</th>
+                            <th id="total-costo">0</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-4">
+            <h2>¿Qué equipo gasta más?</h2>
+            <!-- row g-4: fila de la grilla; col-md-6 = mitad de pantalla en computador -->
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <!-- div vacio: JavaScript escribe aqui el equipo que mas gasta -->
+                    <div id="mas-gasta" class="tarjeta-resumen"></div>
+                </div>
+                <div class="col-md-6">
+                    <!-- figure + figcaption: imagen con pie de foto -->
+                    <figure class="figure">
+                        <!-- img-fluid: la imagen se encoge para caber en su columna; rounded = esquinas redondas -->
+                        <img class="img-fluid rounded" src="img/precio_bolsa_2026.png" alt="Gráfica del precio de bolsa por mes en 2026" width="500">
+                        <figcaption class="figure-caption">Cada kWh se pagó más caro desde mayo de 2026.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- bg-light = fondo gris claro; text-muted = letra gris; text-center = centrado; py-3 = espacio arriba y abajo -->
+    <footer class="bg-light text-muted text-center py-3">
+        <p class="mb-0">Paradigmas de Programación · Universidad de San Buenaventura Medellín · 2026-2</p>
+    </footer>
+
+    <!-- JavaScript de Bootstrap: hace funcionar el boton ☰ del menu en el celular -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- NUESTRO JavaScript: va al FINAL del body, cuando la tabla ya existe en la pagina -->
+    <script src="js/equipos_electricos.js"></script>
+</body>
+</html>

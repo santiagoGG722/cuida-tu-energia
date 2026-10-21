@@ -1,0 +1,188 @@
+/* =====================================================================
+   estilos.css: el CSS PROPIO del sitio "Cuida tu energía".
+
+   Como se escribe una REGLA de CSS:
+       selector {
+           propiedad: valor;
+       }
+   - selector  = A QUIEN se le aplica (una etiqueta, una clase, un id...)
+   - propiedad = QUE se cambia (color, tamano, borde...)
+   - valor     = COMO queda (verde, 16px, solido...)
+   - cada linea termina en punto y coma ;
+
+   Este archivo se carga DESPUES de Bootstrap. Si dos reglas chocan,
+   gana la ULTIMA que se leyo: eso es la CASCADA (la C de CSS).
+   Los comentarios en CSS se escriben entre barra-asterisco y asterisco-barra.
+
+   DOS COSAS QUE SE REPITEN MUCHO EN ESTE ARCHIVO:
+
+   1) var(--nombre)
+      --nombre es una VARIABLE de CSS (empieza con DOS RAYAS).
+      Se CREA una vez en :root, por ejemplo:   --amarillo: #ffc928;
+      Se USA con la funcion var( ), poniendo el nombre DENTRO del parentesis:
+          background-color: var(--amarillo);
+      es lo mismo que escribir:
+          background-color: #ffc928;
+      El parentesis va porque var es una FUNCION de CSS, igual que en
+      matematicas f(x): var recibe el nombre de la variable y devuelve su valor.
+
+   2) !important
+      Significa "esta regla GANA, aunque otra regla diga lo contrario".
+      Se necesita cuando Bootstrap ya puso un estilo con mucha fuerza
+      (Bootstrap usa !important en clases como bg-success, o selectores muy
+      especificos en las tablas). Usarlo POCO: si todo es !important,
+      ya no se sabe que regla gana.
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   1. VARIABLES (se crean aqui y se usan en todo el archivo)
+   :root = la RAIZ del documento (la etiqueta <html>): lo que se define
+   aqui sirve en TODAS las paginas.
+   Los colores van en HEXADECIMAL: # + rojo, verde y azul (de 00 a ff cada uno).
+   Ej.: #ffffff = blanco, #000000 = negro, #ff0000 = rojo puro.
+   --------------------------------------------------------------------- */
+:root {
+    --verde: #1b7f4b;          /* --verde: verde principal (botones, numeros destacados) */
+    --verde-oscuro: #0f5132;   /* --verde-oscuro: barra del menu y titulos */
+    --amarillo: #ffc928;       /* --amarillo: color "energia" (barra de los titulos, fila de totales) */
+    --rojo-claro: #ffe3e3;     /* --rojo-claro: fondo de la fila del equipo que mas gasta */
+    --fondo: #f4f8f5;          /* --fondo: fondo de la pagina, un verde casi blanco */
+    --sombra: 0 4px 14px rgba(0, 0, 0, 0.08);
+    /* --sombra: 0 = no se mueve a los lados, 4px = baja 4 pixeles, 14px = que tan difuminada,
+       rgba(0, 0, 0, 0.08) = color negro (rojo 0, verde 0, azul 0) con 8 % de opacidad (casi transparente) */
+    --redondeo: 1rem;
+    /* --redondeo: radio de las esquinas. 1rem = el tamano de la letra normal (16 px) */
+}
+
+
+/* ---------------------------------------------------------------------
+   2. SELECTOR DE ETIQUETA: se aplica a TODAS las etiquetas con ese nombre
+   --------------------------------------------------------------------- */
+
+/* body: toda la pagina */
+body {
+    /* var(--fondo): usa el valor de la variable --fondo (#f4f8f5) */
+    background-color: var(--fondo);
+}
+
+/* header: el encabezado de cada pagina */
+header {
+    /* linear-gradient( ): una FUNCION que crea un DEGRADADO. Dentro del parentesis:
+       135deg = la direccion (en diagonal), luego el color inicial y el color final.
+       var(--verde-oscuro) y var(--verde) = los valores de esas dos variables */
+    background: linear-gradient(135deg, var(--verde-oscuro), var(--verde));
+    color: white;   /* color: el color de la LETRA (white = blanco) */
+}
+
+
+/* ---------------------------------------------------------------------
+   3. SELECTOR DE CLASE: empieza con PUNTO. Se aplica a todo lo que
+   tenga ese class="..." en el HTML
+   --------------------------------------------------------------------- */
+
+/* .navbar: la barra del menu de Bootstrap. En el HTML tiene la clase bg-success (verde de Bootstrap) */
+.navbar {
+    /* var(--verde-oscuro): el verde propio (#0f5132).
+       !important: bg-success de Bootstrap TAMBIEN usa !important; sin el, ganaria el verde de Bootstrap */
+    background-color: var(--verde-oscuro) !important;
+}
+
+/* .card: las tarjetas de Bootstrap */
+.card {
+    border: none;                      /* border: none = sin borde */
+    border-radius: var(--redondeo);    /* border-radius: esquinas redondas; var(--redondeo) = 1rem */
+    box-shadow: var(--sombra);         /* box-shadow: sombra; var(--sombra) = la sombra definida en :root */
+}
+
+/* .btn-primary: el boton principal de Bootstrap (azul) pasa a ser verde */
+.btn-primary {
+    background-color: var(--verde);    /* color de fondo del boton = valor de --verde (#1b7f4b) */
+    border-color: var(--verde);        /* color del borde del boton = el mismo verde */
+}
+
+/* :hover es una PSEUDO-CLASE: el estilo MIENTRAS el mouse esta encima del boton */
+.btn-primary:hover {
+    background-color: var(--verde-oscuro);   /* al pasar el mouse, el fondo se oscurece */
+    border-color: var(--verde-oscuro);       /* y el borde tambien */
+}
+
+
+/* ---------------------------------------------------------------------
+   4. SELECTOR DE DESCENDIENTE: dos selectores separados por un ESPACIO.
+   "main h2" = los h2 que estan DENTRO de main (no los de otras partes)
+   --------------------------------------------------------------------- */
+main h2 {
+    color: var(--verde-oscuro);   /* color del texto = valor de --verde-oscuro */
+    /* border-left: borde SOLO a la izquierda. Tres valores:
+       6px = grosor, solid = linea continua, var(--amarillo) = color (#ffc928) */
+    border-left: 6px solid var(--amarillo);
+    padding-left: 0.5rem;   /* PADDING = espacio por DENTRO: entre la barra amarilla y el texto */
+    margin-top: 1rem;       /* MARGIN = espacio por FUERA: separa el titulo de lo que esta arriba */
+}
+
+/* "tfoot th" = las celdas th que estan DENTRO del tfoot (la fila de totales de la tabla) */
+tfoot th {
+    /* var(--amarillo): usa el valor de la variable --amarillo (#ffc928).
+       !important: Bootstrap pinta las celdas de las tablas con su propio color;
+       sin !important, la fila de totales NO quedaria amarilla */
+    background-color: var(--amarillo) !important;
+}
+
+
+/* ---------------------------------------------------------------------
+   5. CLASES PROPIAS: NO existen en Bootstrap; las inventamos nosotros.
+   Las pone el HTML o las pone JAVASCRIPT
+   --------------------------------------------------------------------- */
+
+/* .fila-mayor: JavaScript se la pone a la fila (tr) del equipo que mas gasta.
+   ".fila-mayor td" = las celdas td que estan DENTRO de esa fila */
+.fila-mayor td {
+    /* var(--rojo-claro) = #ffe3e3. !important: igual que en tfoot th, para ganarle a Bootstrap */
+    background-color: var(--rojo-claro) !important;
+    font-weight: bold;   /* font-weight: grosor de la letra; bold = negrita */
+}
+
+/* .tarjeta-resumen: las tarjetas con los totales que arma JavaScript */
+.tarjeta-resumen {
+    background-color: white;           /* fondo blanco */
+    border-radius: var(--redondeo);    /* esquinas redondas = valor de --redondeo (1rem) */
+    padding: 1rem;                     /* espacio por dentro, en los 4 lados */
+    text-align: center;                /* text-align: alineacion del texto; center = centrado */
+    box-shadow: var(--sombra);         /* la misma sombra de las tarjetas (.card) */
+    height: 100%;                      /* height: alto; 100% = todas las tarjetas de la fila con la misma altura */
+}
+
+/* ".tarjeta-resumen .valor" = elementos con class="valor" DENTRO de una tarjeta-resumen
+   (el numero grande de cada tarjeta) */
+.tarjeta-resumen .valor {
+    font-size: 1.8rem;        /* font-size: tamano de letra; 1.8rem = 1,8 veces la letra normal */
+    font-weight: bold;        /* negrita */
+    color: var(--verde);      /* color = valor de --verde */
+}
+
+/* .formula: una caja para destacar una formula (se usa en equipos_electricos.html) */
+.formula {
+    background-color: white;
+    /* border: borde en los 4 lados. 2px = grosor, dashed = de RAYITAS, var(--verde) = color */
+    border: 2px dashed var(--verde);
+    border-radius: var(--redondeo);
+    /* padding con 2 valores: el 1.o arriba y abajo (0.75rem), el 2.o a los lados (1rem) */
+    padding: 0.75rem 1rem;
+    /* font-family: el tipo de letra. Se prueba Consolas; si no existe, cualquier letra
+       "monospace" (todas las letras del mismo ancho, como en un editor de codigo) */
+    font-family: Consolas, monospace;
+}
+
+
+/* ---------------------------------------------------------------------
+   6. MEDIA QUERY: reglas que SOLO se aplican si se cumple una condicion.
+   @media (max-width: 576px) = solo en pantallas de 576 px de ancho o menos (celular).
+   El parentesis encierra la CONDICION.
+   --------------------------------------------------------------------- */
+@media (max-width: 576px) {
+    /* .display-5: el titulo muy grande de index.html se achica en el celular */
+    .display-5 {
+        font-size: 2rem;
+    }
+}
